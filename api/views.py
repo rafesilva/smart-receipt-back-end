@@ -1,3 +1,7 @@
+import io
+import json 
+import random
+import base64
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
@@ -6,20 +10,18 @@ from rest_framework import generics
 
 from django.core import serializers
 
-from .models import File
-from .serializers import FileSerializer
+
 
 from PIL import Image, ImageDraw
-import io
-import json 
-import random
-import base64
+
+
 
 from google.cloud import vision
 from google.cloud.vision import types
+from .models import Image
+from .serializers import ImageSerializer
 
-
-class FileView(APIView):
+class ImageView(APIView):
   	
   	parser_classes = (MultiPartParser, FormParser)
   	
@@ -36,7 +38,7 @@ class FileView(APIView):
 	      return Response(file_serializer.errors, 
 	status=status.HTTP_400_BAD_REQUEST)
 
-class FileAnalysis(APIView):
+class ImageAnalysis(APIView):
 
   parser_classes = (MultiPartParser, FormParser)
 
@@ -58,16 +60,16 @@ class FileAnalysis(APIView):
     img_need_to_turn = Image.open(filename).rotate(90)
     img_need_to_turn.save('./media/arrived%s.jpg'%created_number, 'JPEG')
 
-    file = './media/arrived%s.jpg'%created_number
+    arrived = './media/arrived%s.jpg'%created_number
     query = file_serializer.data['query']
     serie = random.randint(9000, 11000)
     serie_2 = random.randint(13000, 17000)
 
     ########## Turn 1
     turn = 0
-    vects = self.get_text_position(file, turn, query)
+    vects = self.get_text_position(arrived, turn, query)
     
-    im_stage_1 = Image.open(file)
+    im_stage_1 = Image.open(arrived)
     im2_stage_2 = im_stage_1.crop([ vects[0].x, vects[0].y, vects[2].x, vects[2].y ]) 
     im2_stage_2.save('./analysed/output-magic-crop%s.jpg' %serie, 'JPEG') 
     print('Image ready, done.')

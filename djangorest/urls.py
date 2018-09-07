@@ -6,5 +6,5 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^file/', include('api.urls')),
+    url(r'^image/', include('api.urls')),
 ]
