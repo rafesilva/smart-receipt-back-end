@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from .models import File
+from .models import Image
 
-class FileSerializer(serializers.ModelSerializer):
+class ImageSerializer(serializers.ModelSerializer):
   	
   	class Meta():
     	
-    		model = File
-    		fields = ('file', 'query', 'timestamp')
+    		model = Image
+    		fields = ('image', 'query', 'timestamp')
