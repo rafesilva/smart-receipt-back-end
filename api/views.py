@@ -1,3 +1,7 @@
+import io
+import json 
+import random
+import base64
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
@@ -6,18 +10,16 @@ from rest_framework import generics
 
 from django.core import serializers
 
-from .models import Image
-from .serializers import ImageSerializer
+
 
 from PIL import Image, ImageDraw
-import io
-import json 
-import random
-import base64
+
+
 
 from google.cloud import vision
 from google.cloud.vision import types
-
+from .models import Image
+from .serializers import ImageSerializer
 
 class ImageView(APIView):
   	
